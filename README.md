@@ -43,15 +43,17 @@ A **Windows 10** virtual machine and a **Windows Server 2022** instance were cre
 
 - Log in to `DC-1` and **disable the Windows Firewall** (for testing connectivity).
 
+<img width="1193" height="860" alt="2" src="https://github.com/user-attachments/assets/d7666254-60d6-4870-a804-f14013b687d1" />
+<img width="1141" height="845" alt="3" src="https://github.com/user-attachments/assets/5a856011-9f4f-4135-b9a7-fc2547136c12" />
+<img width="1173" height="871" alt="4" src="https://github.com/user-attachments/assets/d58a3ac1-4012-426e-8478-8ef497dd9b18" />
+
 <h4> Setup Client-1 in Azure </h4>
 
 - Create a **Windows 10 VM** named `Client-1`.
 - Make sure it’s in the **same region and Virtual Network** as `DC-1`.
 - Update `Client-1`’s **DNS settings** to use `DC-1`’s **private IP address**.
 
-<img width="1193" height="860" alt="2" src="https://github.com/user-attachments/assets/d7666254-60d6-4870-a804-f14013b687d1" />
-<img width="1141" height="845" alt="3" src="https://github.com/user-attachments/assets/5a856011-9f4f-4135-b9a7-fc2547136c12" />
-<img width="1173" height="871" alt="4" src="https://github.com/user-attachments/assets/14774cec-4ddc-49ff-b74d-c5373904ba79" />
+fdjsklfjds
 
 - From the Azure Portal, **restart** `Client-1`.
 - Log in to `Client-1` and **ping** `DC-1`’s private IP to verify connectivity.
