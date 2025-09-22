@@ -65,9 +65,67 @@ A **Windows 10** virtual machine and a **Windows Server 2022** instance were cre
 - The output for the DNS setting should show **DC-1's** private IP Adress.
 
 <br>
+--
 
 <h3>Deploying Active Directory</h3>
 
+Make sure both `DC-1` and `Client-1` VMs are powered **on** in the **Azure Portal**.
+
+<h4> Install Active Directory </h4>
+
+- Log into the `DC-1` VM.
+- Open **Server Manager** and install the **Active Directory Domain Services (AD DS)** role.
+- Promote the server to a Domain Controller:
+  - Choose to create a **new forest** with the domain name `mydomain.com`.  
+    _(This can be any name you choose — just make sure to remember it.)_
+- After promotion, the server will **restart automatically**.
+- Log back into `DC-1` using the domain account:
+
+-----> Include a screenshot of the Server Manager "Add Roles and Features" wizard with AD DS selected, and the domain name setup screen. <------
+
+<h4>Create an Admin and Normal User Account in AD</h4>
+
+- Open **Active Directory Users and Computers (ADUC)** on `DC-1`.
+- Create two new **Organizational Units (OUs)**:
+- `_EMPLOYEES`
+- `_ADMINS`
+- Inside `_ADMINS`, create a new user:
+- **Full Name:** Jane Doe  
+- **Username:** `jane_admin`  
+- **Password:** (Use the same as labuser or a secure alternative)
+- Add `jane_admin` to the **Domain Admins** security group.
+- Log out of `labuser` and log in to `DC-1` as:
+- > ✅ From this point on, use `jane_admin` as your primary admin account.
+ 
+-----> Show the ADUC interface with the OUs and user account created. <-------
+
+<h4>Join Client-1 to Your Domain (`mydomain.com`)</h4>
+
+- In the **Azure Portal**, go to `Client-1`'s **network interface settings**.
+- Set the **DNS server** to the **private IP address of `DC-1`**.
+
+----> Show where to enter custom DNS settings in the Azure NIC configuration. <------
+
+- Restart `Client-1` from the Azure Portal.
+- Log in to `Client-1` using the **local admin account** (`labuser`).
+- Join `Client-1` to the domain:
+- Navigate to:  
+  `System Properties > Computer Name > Change`
+- Enter domain: `mydomain.com`
+- Use the credentials for `jane_admin` when prompted.
+- Restart the system when prompted.
+- Log back into `DC-1` and open **ADUC**.
+- Confirm that `Client-1` appears under the **Computers** container.
+- Create a new OU named `_CLIENTS`.
+- Move `Client-1` into the `_CLIENTS` OU.
+
+----> Include a screenshot of `Client-1` in ADUC, and another after it's moved into the `_CLIENTS` OU. <-----
+
+<h4>Setup Remote Desktop for non-adminstrative users on Client-1</h4>
+
+insert text
+
+--
 <br>
 
 <h3>Creating Users with PowerShell</h3>
