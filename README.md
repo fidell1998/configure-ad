@@ -53,7 +53,7 @@ A **Windows 10** virtual machine and a **Windows Server 2022** instance were cre
 - Make sure it’s in the **same region and Virtual Network** as `DC-1`.
 - Update `Client-1`’s **DNS settings** to use `DC-1`’s **private IP address**.
 
-fdjsklfjds
+<img width="643" height="604" alt="Screenshot 2025-09-22 at 2 24 11 PM" src="https://github.com/user-attachments/assets/50bc48c3-4bf6-44e2-b5d8-c70bd259bcd6" />
 
 - From the Azure Portal, **restart** `Client-1`.
 - Log in to `Client-1` and **ping** `DC-1`’s private IP to verify connectivity.
