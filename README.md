@@ -95,25 +95,31 @@ Make sure both `DC-1` and `Client-1` VMs are powered **on** in the **Azure Porta
 - Create two new **Organizational Units (OUs)**:
 - `_EMPLOYEES`
 - `_ADMINS`
+
+<img width="607" height="336" alt="4" src="https://github.com/user-attachments/assets/8e2840d2-4783-43a3-bb6a-d11c38967b4d" />
+
 - Inside `_ADMINS`, create a new user:
 - **Full Name:** Jane Doe  
 - **Username:** `jane_admin`  
 - **Password:** (Use the same as labuser or a secure alternative)
 - Add `jane_admin` to the **Domain Admins** security group.
+
+<img width="1911" height="843" alt="5" src="https://github.com/user-attachments/assets/b0d01705-1511-4889-a1ad-4d1859d15b24" />
+
 - Log out of `labuser` and log in to `DC-1` as:
 - > From this point on, use `jane_admin` as your primary admin account.
 
 <h4>Join Client-1 to Your Domain (`mydomain.com`)</h4>
 
-- In the **Azure Portal**, go to `Client-1`'s **network interface settings**.
-- Set the **DNS server** to the **private IP address of `DC-1`**.
-- Restart `Client-1` from the Azure Portal.
 - Log in to `Client-1` using the **local admin account** (`labuser`).
 - Join `Client-1` to the domain:
 - Navigate to:  
   `System Properties > Computer Name > Change`
 - Enter domain: `mydomain.com`
 - Use the credentials for `jane_admin` when prompted.
+
+<img width="1327" height="1015" alt="6" src="https://github.com/user-attachments/assets/13c3246b-7ebc-40ac-b749-ab73f4b77977" />
+
 - Restart the system when prompted.
 - Log back into `DC-1` and open **ADUC**.
 - Confirm that `Client-1` appears under the **Computers** container.
