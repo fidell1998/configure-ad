@@ -73,10 +73,19 @@ Make sure both `DC-1` and `Client-1` VMs are powered **on** in the **Azure Porta
 <h4> Install Active Directory </h4>
 
 - Log into the `DC-1` VM.
-- Open **Server Manager** and install the **Active Directory Domain Services (AD DS)** role.
+- Open **Server Manager** and install the **Active Directory Domain Services (AD DS)** role by clicking "Add roles and features".
+
+<img width="1116" height="829" alt="1" src="https://github.com/user-attachments/assets/21af7910-afc8-4b05-9685-1b4d7e7d2707" />
+
 - Promote the server to a Domain Controller:
+
+<img width="1920" height="443" alt="2" src="https://github.com/user-attachments/assets/00b8940a-8e8f-4651-9f0c-9e9b405c8caa" />
+
   - Choose to create a **new forest** with the domain name `mydomain.com`.  
     _(This can be any name you choose — just make sure to remember it.)_
+
+<img width="876" height="636" alt="3" src="https://github.com/user-attachments/assets/d3ea7207-52fb-4612-8c1d-a625908f1ea2" />
+    
 - After promotion, the server will **restart automatically**.
 - Log back into `DC-1` using the domain account:
 
@@ -92,7 +101,7 @@ Make sure both `DC-1` and `Client-1` VMs are powered **on** in the **Azure Porta
 - **Password:** (Use the same as labuser or a secure alternative)
 - Add `jane_admin` to the **Domain Admins** security group.
 - Log out of `labuser` and log in to `DC-1` as:
-- > ✅ From this point on, use `jane_admin` as your primary admin account.
+- > From this point on, use `jane_admin` as your primary admin account.
 
 <h4>Join Client-1 to Your Domain (`mydomain.com`)</h4>
 
