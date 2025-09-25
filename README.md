@@ -65,7 +65,6 @@ A **Windows 10** virtual machine and a **Windows Server 2022** instance were cre
 - The output for the DNS setting should show **DC-1's** private IP Adress.
 
 <br>
---
 
 <h3>Deploying Active Directory</h3>
 
@@ -81,8 +80,6 @@ Make sure both `DC-1` and `Client-1` VMs are powered **on** in the **Azure Porta
 - After promotion, the server will **restart automatically**.
 - Log back into `DC-1` using the domain account:
 
------> Include a screenshot of the Server Manager "Add Roles and Features" wizard with AD DS selected, and the domain name setup screen. <------
-
 <h4>Create an Admin and Normal User Account in AD</h4>
 
 - Open **Active Directory Users and Computers (ADUC)** on `DC-1`.
@@ -96,16 +93,11 @@ Make sure both `DC-1` and `Client-1` VMs are powered **on** in the **Azure Porta
 - Add `jane_admin` to the **Domain Admins** security group.
 - Log out of `labuser` and log in to `DC-1` as:
 - > ✅ From this point on, use `jane_admin` as your primary admin account.
- 
------> Show the ADUC interface with the OUs and user account created. <-------
 
 <h4>Join Client-1 to Your Domain (`mydomain.com`)</h4>
 
 - In the **Azure Portal**, go to `Client-1`'s **network interface settings**.
 - Set the **DNS server** to the **private IP address of `DC-1`**.
-
-----> Show where to enter custom DNS settings in the Azure NIC configuration. <------
-
 - Restart `Client-1` from the Azure Portal.
 - Log in to `Client-1` using the **local admin account** (`labuser`).
 - Join `Client-1` to the domain:
@@ -119,17 +111,54 @@ Make sure both `DC-1` and `Client-1` VMs are powered **on** in the **Azure Porta
 - Create a new OU named `_CLIENTS`.
 - Move `Client-1` into the `_CLIENTS` OU.
 
-----> Include a screenshot of `Client-1` in ADUC, and another after it's moved into the `_CLIENTS` OU. <-----
-
 <h4>Setup Remote Desktop for non-adminstrative users on Client-1</h4>
 
-insert text
+1. Log into **Client-1** using the domain account:  
+   `mydomain.com\jane_admin`
 
---
+2. Open **System Properties**:  
+   - You can do this by right-clicking on **This PC** and selecting **Properties**, then clicking **Remote settings** on the left.
+
+3. Navigate to the **Remote Desktop** section.
+
+4. Enable **Remote Desktop** if it's not already enabled.
+
+5. Click **Select Users** and add the group:  
+   `Domain Users`
+
+6. Click **OK** to apply the changes.
+
+> You can now log into **Client-1** using any standard (non-administrative) domain user account.
+
+> **Tip:** In a production environment, it’s best to configure Remote Desktop access through **Group Policy**. This allows you to apply the setting across multiple systems efficiently.
+
 <br>
 
-<h3>Creating Users with PowerShell</h3>
+<h3> Creating Users with PowerShell </h3>
+
+ Log into **DC-1** using the domain account:  
+   `mydomain.com\jane_admin`
+
+2. Open **PowerShell ISE** as an administrator:  
+   - Right-click on **PowerShell ISE** and select **Run as administrator**.
+
+3. Create a new script file:
+   - In PowerShell ISE, click **File > New**.
+   - Paste the contents of the provided script into the editor XXX
+
+4. Run the script:
+   - Press **F5** or click the **Run** button.
+   - Observe the user accounts being created in the console output.
+
+5. Verify the accounts in **Active Directory Users and Computers (ADUC)**:
+   - Open **ADUC**.
+   - Navigate to the appropriate **Organizational Unit (OU)** where the script created the accounts.
+
+6. Test one of the new accounts:
+   - Attempt to log into **Client-1** using one of the newly created user accounts.
+   - **Note:** Refer to the script to find the default password set for these accounts.
 
 <br>
 
 <h3>Group Policy and Managing Accounts</h3>
+insert text
