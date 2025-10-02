@@ -128,20 +128,22 @@ Make sure both `DC-1` and `Client-1` VMs are powered **on** in the **Azure Porta
 
 <h4>Setup Remote Desktop for non-adminstrative users on Client-1</h4>
 
-1. Log into **Client-1** using the domain account:  
-   `mydomain.com\jane_admin`
+- **Log into Client-1 using the domain account:**  
+  `mydomain.com\jane_admin`
 
-2. Open **System Properties**:  
-   - You can do this by right-clicking on **This PC** and selecting **Properties**, then clicking **Remote settings** on the left.
+- **Open System Properties:**  
+  Right-click on **This PC** and select **Properties**, then click **Remote settings** on the left sidebar.
 
-3. Navigate to the **Remote Desktop** section.
+- **Navigate to the Remote Desktop section.**
 
-4. Enable **Remote Desktop** if it's not already enabled.
+- **Enable Remote Desktop** if it’s not already enabled.
 
-5. Click **Select Users** and add the group:  
-   `Domain Users`
+- **Click Select Users** and add the group:  
+  `Domain Users`
 
-6. Click **OK** to apply the changes.
+<img width="1286" height="997" alt="1" src="https://github.com/user-attachments/assets/b035c707-0742-4047-a637-fa065d72063f" />
+
+- **Click OK** to apply the changes.
 
 > You can now log into **Client-1** using any standard (non-administrative) domain user account.
 
@@ -151,28 +153,76 @@ Make sure both `DC-1` and `Client-1` VMs are powered **on** in the **Azure Porta
 
 <h3> Creating Users with PowerShell </h3>
 
- Log into **DC-1** using the domain account:  
-   `mydomain.com\jane_admin`
+- **Log into DC-1 using the domain account:**  
+  `mydomain.com\jane_admin`
 
-2. Open **PowerShell ISE** as an administrator:  
-   - Right-click on **PowerShell ISE** and select **Run as administrator**.
+- **Open PowerShell ISE as an administrator:**  
+  Right-click on PowerShell ISE and select **Run as administrator**.
 
-3. Create a new script file:
-   - In PowerShell ISE, click **File > New**.
-   - Paste the contents of the provided script into the editor XXX
 
-4. Run the script:
-   - Press **F5** or click the **Run** button.
-   - Observe the user accounts being created in the console output.
+- **Create a new script file:**  
+  Open PowerShell ISE, click **File > New**, and paste the following script into the editor:
 
-5. Verify the accounts in **Active Directory Users and Computers (ADUC)**:
-   - Open **ADUC**.
-   - Navigate to the appropriate **Organizational Unit (OU)** where the script created the accounts.
+  ```powershell
+  # ----- Edit these Variables for your own Use Case ----- #
+  $PASSWORD_FOR_USERS   = "Password1"
+  $NUMBER_OF_ACCOUNTS_TO_CREATE = 100
+  # ------------------------------------------------------ #
 
-6. Test one of the new accounts:
-   - Attempt to log into **Client-1** using one of the newly created user accounts.
-   - **Note:** Refer to the script to find the default password set for these accounts.
+  Function generate-random-name() {
+      $consonants = @('b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','z')
+      $vowels = @('a','e','i','o','u','y')
+      $nameLength = Get-Random -Minimum 3 -Maximum 7
+      $count = 0
+      $name = ""
 
+      while ($count -lt $nameLength) {
+          if ($($count % 2) -eq 0) {
+              $name += $consonants[$(Get-Random -Minimum 0 -Maximum $($consonants.Count - 1))]
+          }
+          else {
+              $name += $vowels[$(Get-Random -Minimum 0 -Maximum $($vowels.Count - 1))]
+          }
+          $count++
+      }
+
+      return $name
+  }
+
+  $count = 1
+  while ($count -lt $NUMBER_OF_ACCOUNTS_TO_CREATE) {
+      $fisrtName = generate-random-name
+      $lastName = generate-random-name
+      $username = $fisrtName + '.' + $lastName
+      $password = ConvertTo-SecureString $PASSWORD_FOR_USERS -AsPlainText -Force
+
+      Write-Host "Creating user: $($username)" -BackgroundColor Black -ForegroundColor Cyan
+      
+      New-AdUser -AccountPassword $password `
+                 -GivenName $firstName `
+                 -Surname $lastName `
+                 -DisplayName $username `
+                 -Name $username `
+                 -EmployeeID $username `
+                 -PasswordNeverExpires $true `
+                 -Path "ou=_EMPLOYEES,$(([ADSI]`"").distinguishedName)" `
+                 -Enabled $true
+      $count++
+  }
+
+- **Run the script:**  
+  Press **F5** or click the **Run** button.  
+  Observe the user accounts being created in the console output.
+
+- **Verify the accounts in Active Directory Users and Computers (ADUC):**  
+  Open **ADUC**, then navigate to the appropriate **Organizational Unit (OU)** where the script created the accounts.
+
+- **Test one of the new accounts:**  
+  Try logging into **Client-1** using one of the newly created user accounts.  
+  **Note:** Refer to the script to find the default password set for these accounts.
+
+  For example, login: mydomain.com\bep.fug | Password: Password1
+  
 <br>
 
 <h3>Group Policy and Managing Accounts</h3>
